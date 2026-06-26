@@ -1,0 +1,198 @@
+.filter-wrapper {
+  background: white;
+  padding: 12px 10px 10px 10px;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+  margin-bottom: 20px;
+  border: 1px solid #f1f5f9;
+}
+
+.custom-searchbar {
+  --background: #f1f5f9;
+  --border-radius: 10px;
+  --box-shadow: none;
+  padding: 0 0 10px 0;
+}
+
+.custom-segment {
+  --background: #f1f5f9;
+  margin-top: 4px;
+}
+
+/* Loading container */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  
+  p {
+    font-size: 0.9rem;
+    color: #64748b;
+    margin-top: 12px;
+    font-weight: 500;
+  }
+}
+
+/* Empty State */
+.empty-container {
+  text-align: center;
+  padding: 40px 20px;
+  background: white;
+  border-radius: var(--app-border-radius);
+  border: 1.5px dashed #cbd5e1;
+  margin-top: 20px;
+  
+  .empty-icon {
+    font-size: 56px;
+    color: #94a3b8;
+    margin-bottom: 15px;
+  }
+  
+  h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0 0 6px 0;
+  }
+  
+  p {
+    font-size: 0.85rem;
+    color: #64748b;
+    margin: 0 0 20px 0;
+    line-height: 1.4;
+  }
+}
+
+/* Records List and Cards */
+.records-list {
+  background: transparent;
+  padding: 0;
+}
+
+.record-card {
+  margin: 0 0 12px 0 !important;
+  transition: transform 0.2s ease;
+  
+  &:active {
+    transform: scale(0.99);
+  }
+}
+
+.record-item {
+  --background: transparent;
+  --padding-start: 12px;
+  --inner-padding-end: 12px;
+  padding: 10px 0;
+}
+
+/* Developer Avatar circle */
+.developer-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.avatar-acad {
+  background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+}
+
+.avatar-ventas {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+/* Record Details labels */
+.record-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+  
+  h2 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0;
+  }
+}
+
+.record-email {
+  font-size: 0.78rem !important;
+  color: #64748b !important;
+  margin: 0 0 6px 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  
+  ion-icon {
+    font-size: 13px;
+  }
+}
+
+.record-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  
+  .meta-date {
+    font-size: 0.7rem;
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    
+    ion-icon {
+      font-size: 12px;
+    }
+  }
+}
+
+/* Sync Badge status (cloud vs offline) */
+.sync-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(245, 158, 11, 0.1);
+  color: #d97706;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  
+  ion-icon {
+    font-size: 10px;
+  }
+  
+  &.synced {
+    background: rgba(16, 185, 129, 0.1);
+    color: #059669;
+  }
+}
+
+.bottom-actions {
+  margin-top: 15px;
+  margin-bottom: 25px;
+}
+
+/* Rotate animation for reload button */
+.rotate-anim {
+  animation: rotation 1.2s infinite linear;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

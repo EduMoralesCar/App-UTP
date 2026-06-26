@@ -1,28 +1,107 @@
-<ion-header>
-  <ion-toolbar color="danger">
-    <ion-title>Registros en nube</ion-title>
+<ion-header class="ion-no-border">
+  <ion-toolbar class="app-gradient-header">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" color="light"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Proyectos en la Nube</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="cargarRegistros()" [disabled]="cargando">
+        <ion-icon slot="icon-only" name="refresh-outline" [class.rotate-anim]="cargando"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
-<ion-content class="ion-padding">
-  <ion-button expand="block" color="danger" (click)="cargarRegistros()">
-    Recargar
-  </ion-button>
-  <ion-note color="medium" *ngIf="cargando">
-    Cargando registros...
-  </ion-note>
-  <ion-note color="danger" *ngIf="error">
-    {{ error }}
-  </ion-note>
-  <ion-list>
-    <ion-item *ngFor="let item of registros">
-      <ion-label>
-        <h2>{{ item.nombre }}</h2>
-        <p>{{ item.correo }} · {{ item.tipoApp }}</p>
-      </ion-label>
-    </ion-item>
+
+<ion-content [fullscreen]="true" class="ion-padding" style="--background: #f1f5f9;">
+  <!-- Search and Filter Section -->
+  <div class="filter-wrapper">
+    <ion-searchbar 
+      (ionInput)="filtrarRegistros($event)" 
+      placeholder="Buscar por desarrollador..."
+      class="custom-searchbar"
+      mode="ios">
+    </ion-searchbar>
+
+    <ion-segment [(ngModel)]="filtroTipo" (ionChange)="filtrarRegistros()" mode="ios" class="custom-segment">
+      <ion-segment-button value="todos">
+        <ion-label>Todos</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="academica">
+        <ion-label>Académica</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="ventas">
+        <ion-label>Ventas</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading-container" *ngIf="cargando && registros.length === 0">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+    <p>Conectando con el servidor...</p>
+  </div>
+
+  <!-- Error Alerts -->
+  <div class="notification-alert alert-error" *ngIf="error">
+    <ion-icon name="alert-circle" class="alert-icon"></ion-icon>
+    <div class="alert-text">{{ error }}</div>
+  </div>
+
+  <!-- Empty State -->
+  <div class="empty-container" *ngIf="!cargando && registrosFiltrados.length === 0">
+    <ion-icon name="folder-open-outline" class="empty-icon"></ion-icon>
+    <h3>No se encontraron proyectos</h3>
+    <p>Registra un nuevo proyecto en el formulario para verlo listado aquí.</p>
+    <ion-button fill="solid" color="primary" routerLink="/home" class="interactive-btn">
+      Ir al Formulario
+    </ion-button>
+  </div>
+
+  <!-- Records List -->
+  <ion-list lines="none" class="records-list" *ngIf="registrosFiltrados.length > 0">
+    <ion-card class="glass-card record-card" *ngFor="let item of registrosFiltrados" [routerLink]="['/detalle']" [queryParams]="item">
+      <ion-item lines="none" detail="false" class="record-item">
+        <!-- Visual Avatar -->
+        <div slot="start" class="developer-avatar" [ngClass]="item.tipoApp === 'academica' ? 'avatar-acad' : 'avatar-ventas'">
+          {{ getIniciales(item.nombre) }}
+        </div>
+        
+        <ion-label>
+          <div class="record-header">
+            <h2>{{ item.nombre }}</h2>
+            <ion-badge [class]="item.tipoApp === 'academica' ? 'badge-academica' : 'badge-ventas'">
+              {{ item.tipoApp === 'academica' ? 'Académica' : 'Ventas' }}
+            </ion-badge>
+          </div>
+          <p class="record-email">
+            <ion-icon name="mail-outline"></ion-icon>
+            {{ item.correo }}
+          </p>
+          <div class="record-meta">
+            <span class="meta-date" *ngIf="item.fecha">
+              <ion-icon name="calendar-outline"></ion-icon>
+              {{ item.fecha | date:'dd/MM/yyyy · HH:mm' }}
+            </span>
+            <!-- Local state indicator -->
+            <span class="sync-badge" *ngIf="item.id === undefined">
+              <ion-icon name="cloud-offline-outline"></ion-icon>
+              Local
+            </span>
+            <span class="sync-badge synced" *ngIf="item.id !== undefined">
+              <ion-icon name="cloud-done-outline"></ion-icon>
+              Nube
+            </span>
+          </div>
+        </ion-label>
+      </ion-item>
+    </ion-card>
   </ion-list>
 
-  <ion-button expand="block" fill="outline" routerLink="/consulta">
-    Ver registros en nube
-  </ion-button>
+  <!-- Navigation Action buttons -->
+  <div class="bottom-actions" *ngIf="registrosFiltrados.length > 0">
+    <ion-button expand="block" fill="clear" color="primary" class="interactive-btn" routerLink="/home">
+      <ion-icon slot="start" name="add-circle-outline"></ion-icon>
+      Registrar Nuevo Proyecto
+    </ion-button>
+  </div>
 </ion-content>
