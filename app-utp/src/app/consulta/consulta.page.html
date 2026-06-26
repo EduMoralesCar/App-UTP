@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar color="danger">
+    <ion-title>Registros en nube</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <ion-button expand="block" color="danger" (click)="cargarRegistros()">
+    Recargar
+  </ion-button>
+  <ion-note color="medium" *ngIf="cargando">
+    Cargando registros...
+  </ion-note>
+  <ion-note color="danger" *ngIf="error">
+    {{ error }}
+  </ion-note>
+  <ion-list>
+    <ion-item *ngFor="let item of registros">
+      <ion-label>
+        <h2>{{ item.nombre }}</h2>
+        <p>{{ item.correo }} · {{ item.tipoApp }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-button expand="block" fill="outline" routerLink="/consulta">
+    Ver registros en nube
+  </ion-button>
+</ion-content>
