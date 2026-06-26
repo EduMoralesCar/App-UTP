@@ -1,10 +1,51 @@
-.tarjeta-resumen {
-    border-left: 6px solid #c8102e;
-    border-radius: 16px;
-    box-shadow: 0 8px 22px rgba(0, 0, 0, .08);
-}
-
-ion-card-title {
-    color: #c8102e;
-    font-weight: 800;
+.resumen-box-card {
+  --padding-bottom: 5px;
+  
+  .header-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .header-icon {
+    font-size: 22px;
+  }
+  
+  ion-card-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #1e293b;
+    letter-spacing: -0.2px;
+  }
+  
+  .resumen-content {
+    padding: 0 10px 10px 10px;
+  }
+  
+  .resumen-item {
+    --background: transparent;
+    --min-height: 52px;
+    margin-bottom: 5px;
+    
+    ion-icon {
+      font-size: 22px;
+      margin-right: 12px;
+    }
+    
+    p {
+      font-size: 0.68rem;
+      color: #64748b;
+      margin-bottom: 2px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+    }
+    
+    h3 {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #1e293b;
+      margin: 0;
+    }
+  }
 }

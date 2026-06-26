@@ -1,0 +1,30 @@
+.selector-box-card {
+  --padding-bottom: 5px;
+  
+  ion-card-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #1e293b;
+    letter-spacing: -0.2px;
+  }
+  
+  .selector-content {
+    padding: 0 10px 10px 10px;
+  }
+  
+  .selector-hint {
+    font-size: 0.78rem;
+    color: #64748b;
+    margin: 0 0 12px 0;
+    line-height: 1.4;
+  }
+  
+  .button-row {
+    margin-left: -5px;
+    margin-right: -5px;
+    
+    ion-col {
+      padding: 0 5px;
+    }
+  }
+}

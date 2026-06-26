@@ -1,13 +1,22 @@
-<ion-card>
+<ion-card class="glass-card selector-box-card">
   <ion-card-header>
-    <ion-card-title>Cambiar tipo</ion-card-title>
+    <ion-card-title>Simular Interfaz Alternativa</ion-card-title>
   </ion-card-header>
-  <ion-card-content>
-    <ion-button color="danger" expand="block" (click)="seleccionar('academica')">
-      App académica
-    </ion-button>
-    <ion-button color="dark" expand="block" (click)="seleccionar('ventas')">
-      App de ventas
-    </ion-button>
+  <ion-card-content class="selector-content">
+    <p class="selector-hint">Haz clic en un botón para cambiar dinámicamente la interfaz mostrada en el simulador móvil:</p>
+    <ion-row class="button-row">
+      <ion-col size="6">
+        <ion-button expand="block" color="primary" class="interactive-btn" (click)="seleccionar('academica')">
+          <ion-icon slot="start" name="school-outline"></ion-icon>
+          Académica
+        </ion-button>
+      </ion-col>
+      <ion-col size="6">
+        <ion-button expand="block" color="success" class="interactive-btn success-btn" (click)="seleccionar('ventas')">
+          <ion-icon slot="start" name="cart-outline"></ion-icon>
+          Ventas
+        </ion-button>
+      </ion-col>
+    </ion-row>
   </ion-card-content>
 </ion-card>
