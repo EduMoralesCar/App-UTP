@@ -1,54 +1,167 @@
-<ion-header>
-  <ion-toolbar color="danger">
-    <ion-title>Registro UTP</ion-title>
+<ion-header class="ion-no-border">
+  <ion-toolbar class="app-gradient-header">
+    <ion-title>Portal de Registro UTP</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/consulta">
+        <ion-icon slot="icon-only" name="list-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
-<ion-content class="ion-padding">
-  <form [formGroup]="registroForm">
-    <ion-item>
-      <ion-label position="floating">Nombre</ion-label>
-      <ion-input formControlName="nombre"></ion-input>
-    </ion-item>
-    <ion-note color="danger" *ngIf="f.nombre.invalid && (f.nombre.touched || enviado)">
-      El nombre es obligatorio y debe tener mínimo 3 letras.
-    </ion-note>
-    <ion-item>
-      <ion-label position="floating">Correo</ion-label>
-      <ion-input formControlName="correo" type="email"></ion-input>
-    </ion-item>
-    <ion-note color="danger" *ngIf="f.correo.invalid && (f.correo.touched || enviado)">
-      Ingresa un correo válido.
-    </ion-note>
-    <ion-item>
-      <ion-label>Tipo de app</ion-label>
-      <ion-select formControlName="tipoApp">
-        <ion-select-option value="academica">Académica</ion-select-option>
-        <ion-select-option value="ventas">Ventas</ion-select-option>
-      </ion-select>
-    </ion-item>
-    <ion-note color="danger" *ngIf="f.tipoApp.invalid && (f.tipoApp.touched || enviado)">
-      Selecciona un tipo de app.
-    </ion-note>
 
-    <ion-button expand="block" color="danger" (click)="validarRegistro()">
-      Validar registro
-    </ion-button>
+<ion-content [fullscreen]="true" class="ion-padding" style="--background: #f1f5f9;">
+  <!-- Welcome and Dashboard Banner -->
+  <div class="welcome-header">
+    <h1>¡Hola! 👋</h1>
+    <p>Registra e interactúa con tus proyectos de desarrollo móvil.</p>
+  </div>
 
-    <ion-button expand="block" color="danger" (click)="continuarADetalle()">
-      Continuar al detalle
-    </ion-button>
-  </form>
+  <!-- Stats Dashboard Card -->
+  <ion-card class="glass-card dashboard-card">
+    <ion-card-header>
+      <div class="dashboard-title-row">
+        <ion-card-subtitle>ESTADÍSTICAS DEL SISTEMA</ion-card-subtitle>
+        <ion-badge color="primary" class="pulse-badge">{{ totalRegistros }} total</ion-badge>
+      </div>
+      <ion-card-title>Proyectos Creados</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-row class="stats-row">
+        <ion-col size="6" class="stat-col border-right">
+          <div class="stat-number color-acad">{{ acadRegistros }}</div>
+          <div class="stat-label">Académicas</div>
+        </ion-col>
+        <ion-col size="6" class="stat-col">
+          <div class="stat-number color-ventas">{{ ventasRegistros }}</div>
+          <div class="stat-label">De Ventas</div>
+        </ion-col>
+      </ion-row>
+
+      <!-- Custom Ratio Progress Bar -->
+      <div class="progress-container" *ngIf="totalRegistros > 0">
+        <div class="progress-bar-track">
+          <div class="progress-bar-fill color-acad-bg" [style.width]="(porcentajeAcad * 100) + '%'"></div>
+          <div class="progress-bar-fill color-ventas-bg" [style.width]="(porcentajeVentas * 100) + '%'"></div>
+        </div>
+        <div class="progress-legend">
+          <span>{{ (porcentajeAcad * 100) | number:'1.0-0' }}% Académica</span>
+          <span>{{ (porcentajeVentas * 100) | number:'1.0-0' }}% Ventas</span>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Form Card -->
+  <ion-card class="glass-card form-card">
+    <ion-card-header>
+      <ion-card-title>Nuevo Registro</ion-card-title>
+      <ion-card-subtitle>Completa los detalles de tu aplicación móvil</ion-card-subtitle>
+    </ion-card-header>
+    
+    <ion-card-content>
+      <form [formGroup]="registroForm">
+        <!-- Nombre input -->
+        <div class="input-group">
+          <label class="input-label">Nombre del Desarrollador</label>
+          <ion-item lines="none" class="custom-input">
+            <ion-icon name="person-outline" color="medium" slot="start"></ion-icon>
+            <ion-input formControlName="nombre" placeholder="Ej. Juan Pérez"></ion-input>
+          </ion-item>
+          <span class="error-note" *ngIf="f.nombre.invalid && (f.nombre.touched || enviado)">
+            El nombre es obligatorio (mínimo 3 letras).
+          </span>
+        </div>
+
+        <!-- Correo input -->
+        <div class="input-group">
+          <label class="input-label">Correo Electrónico</label>
+          <ion-item lines="none" class="custom-input">
+            <ion-icon name="mail-outline" color="medium" slot="start"></ion-icon>
+            <ion-input formControlName="correo" type="email" placeholder="juan@utp.edu.pe"></ion-input>
+          </ion-item>
+          <span class="error-note" *ngIf="f.correo.invalid && (f.correo.touched || enviado)">
+            Ingresa un correo electrónico corporativo válido.
+          </span>
+        </div>
+
+        <!-- Tipo App Card Selector -->
+        <div class="input-group">
+          <label class="input-label">Tipo de Aplicación</label>
+          <ion-row class="selector-row">
+            <ion-col size="6">
+              <div class="card-selector academica-sel" 
+                   [class.active]="registroForm.value.tipoApp === 'academica'" 
+                   (click)="seleccionarTipoApp('academica')">
+                <div class="selector-icon-wrapper acad-icon-bg">
+                  <ion-icon name="school-outline" class="selector-icon"></ion-icon>
+                </div>
+                <h3>Académica</h3>
+                <p>Cursos y notas</p>
+              </div>
+            </ion-col>
+            <ion-col size="6">
+              <div class="card-selector ventas-sel" 
+                   [class.active]="registroForm.value.tipoApp === 'ventas'" 
+                   (click)="seleccionarTipoApp('ventas')">
+                <div class="selector-icon-wrapper ventas-icon-bg">
+                  <ion-icon name="cart-outline" class="selector-icon"></ion-icon>
+                </div>
+                <h3>Ventas</h3>
+                <p>E-commerce y stock</p>
+              </div>
+            </ion-col>
+          </ion-row>
+          <span class="error-note" *ngIf="f.tipoApp.invalid && (f.tipoApp.touched || enviado)">
+            Selecciona un tipo de aplicación móvil.
+          </span>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons-container">
+          <ion-button expand="block" color="primary" class="interactive-btn" [disabled]="cargando" (click)="guardarEnNube()">
+            <ion-icon slot="start" name="cloud-upload-outline"></ion-icon>
+            {{ cargando ? 'Guardando en la nube...' : 'Guardar en la Nube' }}
+          </ion-button>
+
+          <ion-row>
+            <ion-col size="6">
+              <ion-button expand="block" fill="outline" color="medium" class="interactive-btn" (click)="limpiarFormulario()">
+                <ion-icon slot="start" name="trash-outline"></ion-icon>
+                Limpiar
+              </ion-button>
+            </ion-col>
+            <ion-col size="6">
+              <ion-button expand="block" fill="outline" color="primary" class="interactive-btn" (click)="validarRegistro()">
+                <ion-icon slot="start" name="checkmark-done-outline"></ion-icon>
+                Validar
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </div>
+      </form>
+      
+      <!-- Notifications -->
+      <div class="notification-container">
+        <div class="notification-alert alert-success" *ngIf="mensaje">
+          <ion-icon name="checkmark-circle" class="alert-icon"></ion-icon>
+          <div class="alert-text">{{ mensaje }}</div>
+        </div>
+        <div class="notification-alert alert-error" *ngIf="error">
+          <ion-icon name="alert-circle" class="alert-icon"></ion-icon>
+          <div class="alert-text">{{ error }}</div>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Navigation Shortcut Card -->
+  <ion-card class="glass-card quick-nav-card" routerLink="/consulta">
+    <ion-item lines="none" detail="true" class="quick-nav-item">
+      <ion-icon name="folder-open-outline" slot="start" color="primary" class="quick-nav-icon"></ion-icon>
+      <ion-label>
+        <h2>Explorar Proyectos</h2>
+        <p>Ver el listado de aplicaciones registradas</p>
+      </ion-label>
+    </ion-item>
+  </ion-card>
 </ion-content>
-
-<ion-button expand="block" color="danger" [disabled]="cargando" (click)="guardarEnNube()">
-  {{ cargando ? 'Guardando...' : 'Guardar en nube' }}
-</ion-button>
-<ion-button expand="block" fill="clear" (click)="limpiarFormulario()">
-  Limpiar
-</ion-button>
-<ion-note color="success" *ngIf="mensaje">
-  {{ mensaje }}
-</ion-note>
-<ion-note color="danger" *ngIf="error">
-  {{ error }}
-</ion-note>
