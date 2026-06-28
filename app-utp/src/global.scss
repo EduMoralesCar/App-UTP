@@ -16,8 +16,8 @@
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
-/* Dark mode palettes */
-@import "@ionic/angular/css/palettes/dark.system.css";
+/* Dark mode palettes (desactivado para mantener el tema claro premium de la app) */
+/* @import "@ionic/angular/css/palettes/dark.system.css"; */
 
 /* Default global settings */
 * {
@@ -94,6 +94,13 @@ ion-item.custom-input {
   border-radius: 14px;
   transition: all 0.2s ease;
   --highlight-color-focused: var(--ion-color-primary);
+  --color: #0f172a;
+  
+  ion-input {
+    --color: #0f172a;
+    --placeholder-color: #64748b;
+    --placeholder-opacity: 0.6;
+  }
   
   &.item-has-focus {
     border-color: var(--ion-color-primary);
